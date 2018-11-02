@@ -20,6 +20,7 @@ with open(cacheFile, 'r') as x:
     AUTH_TOKEN = x.readline()
 
     toNumber = x.readline()
+    myNumber = x.readline()
     fromNumber = x.readline()
 
 # gets the current time in hh:mm format
@@ -46,6 +47,7 @@ def sendMessage():
 
     if n == 0:
         twilioClient.messages.create(to=toNumber, from_=fromNumber, body=message)
+        twilioClient.messages.create(to=myNumber, from_=fromNumber, body=message)
         return
 
 # main loop
