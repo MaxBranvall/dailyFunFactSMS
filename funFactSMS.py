@@ -92,7 +92,7 @@ def sendMessage():
 
     if n == 0:
         message = getFunFact()
-        # twilioClient.messages.create(to=toNumber, from_=fromNumber, body=message)
+        twilioClient.messages.create(to=toNumber, from_=fromNumber, body=message)
         twilioClient.messages.create(to=myNumber, from_=fromNumber, body=message)
 
         print('Message Sent!')
