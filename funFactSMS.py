@@ -5,9 +5,13 @@ from twilio.rest import Client
 
 # initialization
 n = 0
+dupeBreakpoint = 25
+
 execute = True
+
 funFactFile = 'funFacts.txt'
 previousFactFile = 'previousFact.txt'
+
 # stores in this order, account_sid, auth_token, toNumber, fromNumber
 cacheFile = 'cache.txt'
 
@@ -36,13 +40,33 @@ def calculateTime():
 
     return currentTime
 
+def previousFactFileHandling(num):
+
+    with open(previousFactFile, 'a') as appendToFile:
+        with open(previousFactFile, 'r') as readFromFile:
+
+            lines = readFromFile.readlines()
+
+            if len(lines) == dupeBreakpoint:
+
+                with open(previousFactFile, 'w') as resetFile:
+                    resetFile.writelines(str(num) + '\n')
+                    return
+
+            else:
+                appendToFile.writelines(str(num) + '\n')
+                return
+
 def checkForDupe(randNum):
 
     with open(previousFactFile, 'r') as x:
-        num = x.readline()
+        num = x.readlines()
 
-        if int(num) == randNum:
+        numList = [int(fact.strip()) for fact in num]
+
+        if randNum in numList:
             return True
+
         else:
             return False
 
@@ -58,8 +82,7 @@ def getFunFact():
         return getFunFact()
 
     else:
-        with open(previousFactFile, 'w') as x:
-            x.write(str(randomLineNumber))
+        previousFactFileHandling(randomLineNumber)
 
         fact = lines[randomLineNumber]
         return fact
@@ -94,5 +117,8 @@ def main():
 
 if __name__ == '__main__':
 
-    while execute == True:
-        main()
+    try:
+        while execute == True:
+            main()
+    except KeyboardInterrupt: # Press Ctrl + C to terminate program
+        pass
