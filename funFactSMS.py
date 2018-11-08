@@ -5,7 +5,7 @@ from twilio.rest import Client
 
 # initialization
 n = 0
-dupeBreakpoint = 15
+dupeBreakpoint = 25
 
 execute = True
 
@@ -117,5 +117,8 @@ def main():
 
 if __name__ == '__main__':
 
-    while execute == True:
-        main()
+    try:
+        while execute == True:
+            main()
+    except KeyboardInterrupt: # Press Ctrl + C to terminate program
+        pass
