@@ -12,7 +12,7 @@ execute = True
 funFactFile = 'funFacts.txt'
 previousFactFile = 'previousFact.txt'
 
-# stores in this order, account_sid, auth_token, toNumber, fromNumber
+# stores in this order, account_sid, auth_token, sendTo1, sendTo2, sendTo3, fromNumber
 cacheFile = 'cache.txt'
 
 # what time the message will be sent daily
@@ -23,8 +23,9 @@ with open(cacheFile, 'r') as x:
     ACCOUNT_SID = x.readline()
     AUTH_TOKEN = x.readline()
 
-    toNumber = x.readline()
-    myNumber = x.readline()
+    sendTo1 = x.readline()
+    sendTo2 = x.readline()
+    sendTo3 = x.readline()
     fromNumber = x.readline()
 
 twilioClient = Client(ACCOUNT_SID, AUTH_TOKEN)
@@ -92,8 +93,9 @@ def sendMessage():
 
     if n == 0:
         message = getFunFact()
-        twilioClient.messages.create(to=toNumber, from_=fromNumber, body=message)
-        twilioClient.messages.create(to=myNumber, from_=fromNumber, body=message)
+        twilioClient.messages.create(to=sendTo1, from_=fromNumber, body=message)
+        twilioClient.messages.create(to=sendTo2, from_=fromNumber, body=message)
+        twilioClient.messages.create(to=sendTo3, from_=fromNumber, body=message)
 
         print('Message Sent!')
         return
