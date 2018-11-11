@@ -1,6 +1,7 @@
 from datetime import datetime
 from time import sleep
 import random
+import json
 from twilio.rest import Client
 
 # initialization
@@ -9,24 +10,29 @@ dupeBreakpoint = 25
 
 execute = True
 
-funFactFile = 'funFacts.txt'
-previousFactFile = 'previousFact.txt'
+funFactFile = 'textFiles/funFacts.txt'
+previousFactFile = 'textFiles/previousFact.txt'
 
 # stores in this order, account_sid, auth_token, sendTo1, sendTo2, sendTo3, fromNumber
-cacheFile = 'cache.txt'
+cacheFile = 'cache/cache.json'
 
 # what time the message will be sent daily
 sendAt = ('-1:30')
 
 with open(cacheFile, 'r') as x:
 
-    ACCOUNT_SID = x.readline()
-    AUTH_TOKEN = x.readline()
+    jsonFile = json.load(x)
 
-    sendTo1 = x.readline()
-    sendTo2 = x.readline()
-    sendTo3 = x.readline()
-    fromNumber = x.readline()
+    credentials = jsonFile['Account-Credentials']
+    phoneNums = jsonFile["Phone-Numbers"]
+
+    ACCOUNT_SID = credentials["Account-SID"]
+    AUTH_TOKEN = credentials["Auth-Token"]
+
+    fromNumber = phoneNums["From"]
+    sendTo1 = phoneNums["num1"]
+    sendTo2 = phoneNums["num2"]
+    sendTo3 = phoneNums["num3"]
 
 twilioClient = Client(ACCOUNT_SID, AUTH_TOKEN)
 
