@@ -6,7 +6,7 @@ from twilio.rest import Client
 
 # initialization
 n = 0
-dupeBreakpoint = 25
+dupeBreakpoint = 100
 
 execute = True
 
