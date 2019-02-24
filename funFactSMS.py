@@ -27,10 +27,20 @@ with open(cacheFile, 'r') as x:
     ACCOUNT_SID = credentials["Account-SID"]
     AUTH_TOKEN = credentials["Auth-Token"]
 
-    fromNumber = phoneNums["From"]
-    sendTo1 = phoneNums["num1"]
-    sendTo2 = phoneNums["num2"]
-    sendTo3 = phoneNums["num3"]
+    # i = 0
+
+    # for numbers in phoneNums.values():
+
+    #     if i == 0:
+    #         i += 1
+    #         continue
+    #     else:
+    #         print(numbers)
+
+    # fromNumber = phoneNums["From"]
+    # sendTo1 = phoneNums["num1"]
+    # sendTo2 = phoneNums["num2"]
+    # sendTo3 = phoneNums["num3"]
 
 twilioClient = Client(ACCOUNT_SID, AUTH_TOKEN)
 
@@ -82,7 +92,7 @@ def getFunFact():
 
     dupe = checkForDupe(randomLineNumber)
 
-    if dupe == True:
+    if dupe:
         print('Got a duper!')
         return getFunFact()
 
@@ -97,9 +107,19 @@ def sendMessage():
 
     if n == 0:
         message = getFunFact()
-        twilioClient.messages.create(to=sendTo1, from_=fromNumber, body=message)
-        twilioClient.messages.create(to=sendTo2, from_=fromNumber, body=message)
-        twilioClient.messages.create(to=sendTo3, from_=fromNumber, body=message)
+
+        i = 0
+
+        for num in phoneNums.values():
+            if i == 0:
+                fromNumber = num
+                i += 1
+                continue
+            else:
+                twilioClient.messages.create(to=num, from_=fromNumber, body=message)
+        # twilioClient.messages.create(to=sendTo1, from_=fromNumber, body=message)
+        # twilioClient.messages.create(to=sendTo2, from_=fromNumber, body=message)
+        # twilioClient.messages.create(to=sendTo3, from_=fromNumber, body=message)
 
         print('Message Sent!')
         return
@@ -121,10 +141,12 @@ def main():
         sleep(1)
         currentTime = calculateTime()
 
-if __name__ == '__main__':
+sendMessage()
 
-    try:
-        while execute == True:
-            main()
-    except KeyboardInterrupt: # Press Ctrl + C to terminate program
-        pass
+# if __name__ == '__main__':
+
+#     try:
+#         while execute == True:
+#             main()
+#     except KeyboardInterrupt: # Press Ctrl + C to terminate program
+#         pass
